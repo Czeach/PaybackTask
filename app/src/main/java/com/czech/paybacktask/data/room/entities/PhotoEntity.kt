@@ -20,24 +20,3 @@ data class PhotoEntity(
     val user: String?,
     val userImageURL: String?
 )
-
-fun PhotoEntity.toHit(): Result.Hit {
-    return Result.Hit(
-        id,
-        type,
-        tags,
-        previewURL,
-        largeImageURL,
-        views,
-        downloads,
-        likes,
-        comments,
-        userId,
-        user,
-        userImageURL
-    )
-}
-
-fun List<PhotoEntity>.toHitList(): List<Result.Hit> {
-    return map { it.toHit() }
-}

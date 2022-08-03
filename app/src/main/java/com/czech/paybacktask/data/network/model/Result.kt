@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 data class Result(
     @SerializedName("hits")
-    val hits: List<Hit?>?
+    val hits: List<Hit>?
 ) {
     data class Hit(
         @SerializedName("id")

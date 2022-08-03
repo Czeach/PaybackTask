@@ -13,12 +13,10 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
-@Module
-@InstallIn(SingletonComponent::class)
+@[Module InstallIn(SingletonComponent::class)]
 object NetworkModule {
 
-    @Provides
-    @Singleton
+    @[Provides Singleton]
     fun provideHttpLoggingInterceptor(): HttpLoggingInterceptor {
         return HttpLoggingInterceptor().apply {
             level = HttpLoggingInterceptor.Level.BODY
@@ -27,8 +25,7 @@ object NetworkModule {
         }
     }
 
-    @Provides
-    @Singleton
+    @[Provides Singleton]
     fun provideHttpClient(httpLoggingInterceptor: HttpLoggingInterceptor): OkHttpClient {
         return OkHttpClient
             .Builder()
@@ -39,8 +36,7 @@ object NetworkModule {
             .build()
     }
 
-    @Provides
-    @Singleton
+    @[Provides Singleton]
     fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
         return Retrofit
             .Builder()
@@ -50,8 +46,7 @@ object NetworkModule {
             .build()
     }
 
-    @Provides
-    @Singleton
+    @[Provides Singleton]
     fun provideApiService(
         retrofit: Retrofit
     ): ApiService {

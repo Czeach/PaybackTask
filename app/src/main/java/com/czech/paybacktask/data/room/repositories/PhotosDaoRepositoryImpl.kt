@@ -6,7 +6,7 @@ import javax.inject.Inject
 
 class PhotosDaoRepositoryImpl @Inject constructor(
     private val photosDao: PhotosDao
-): PhotosDaoRepository {
+) : PhotosDaoRepository {
 
     override suspend fun insertPhotos(photos: List<PhotoEntity>) {
         photosDao.insertPhotos(photos)
