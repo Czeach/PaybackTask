@@ -1,5 +1,6 @@
 package com.czech.paybacktask.di
 
+import com.czech.paybacktask.data.network.ApiService
 import com.czech.paybacktask.utils.Constants
 import dagger.Module
 import dagger.Provides
@@ -47,6 +48,14 @@ object NetworkModule {
             .baseUrl(Constants.BASE_URL)
             .client(okHttpClient)
             .build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideApiService(
+        retrofit: Retrofit
+    ): ApiService {
+        return retrofit.create(ApiService::class.java)
     }
 
 }

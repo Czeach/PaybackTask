@@ -17,13 +17,15 @@ object DatabaseModule {
 
     @Provides
     @Singleton
-    fun provideUserDatabase(@ApplicationContext context: Context): PhotosDatabase =
-        Room.databaseBuilder(context, PhotosDatabase::class.java, "PHOTOS_DB")
+    fun provideUserDatabase(@ApplicationContext context: Context): PhotosDatabase {
+        return Room.databaseBuilder(context, PhotosDatabase::class.java, "PHOTOS_DB")
             .fallbackToDestructiveMigration()
             .build()
+    }
 
     @Provides
     @Singleton
-    fun providePhotosDao(photosDatabase: PhotosDatabase): PhotosDao =
-        photosDatabase.photosDao()
+    fun providePhotosDao(photosDatabase: PhotosDatabase): PhotosDao {
+        return photosDatabase.photosDao()
+    }
 }
