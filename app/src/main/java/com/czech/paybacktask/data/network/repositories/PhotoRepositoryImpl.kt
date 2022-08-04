@@ -11,7 +11,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
-import java.lang.Exception
 import javax.inject.Inject
 
 class PhotoRepositoryImpl @Inject constructor(
@@ -42,7 +41,7 @@ class PhotoRepositoryImpl @Inject constructor(
                         emit(DataState.error(message = "Error ${response.code()}"))
                     }
                 }
-            }catch (e: Exception) {
+            } catch (e: Exception) {
                 emit(
                     DataState.error(
                         message = e.message ?: "An error occurred"
