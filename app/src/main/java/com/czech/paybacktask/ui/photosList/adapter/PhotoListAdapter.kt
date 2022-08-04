@@ -16,6 +16,8 @@ import com.czech.paybacktask.data.network.model.Result
 class PhotoListAdapter(diffCallback: PhotoListDiffCallback) :
     ListAdapter<Result.Hit, PhotoListAdapter.PhotoListViewHolder>(diffCallback) {
 
+    var onClickItemListener: ((Result.Hit) -> Unit)? = null
+
     class PhotoListViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val userName: TextView = itemView.findViewById(R.id.user_name)
         private val photo: ImageView = itemView.findViewById(R.id.photo)
@@ -42,6 +44,9 @@ class PhotoListAdapter(diffCallback: PhotoListDiffCallback) :
     override fun onBindViewHolder(holder: PhotoListViewHolder, position: Int) {
         val data = getItem(position)
         holder.bind(data)
+        holder.itemView.setOnClickListener {
+            onClickItemListener?.invoke(data)
+        }
     }
 }
 

@@ -9,5 +9,18 @@
         android:id="@+id/photosListFragment"
         android:name="com.czech.paybacktask.ui.photosList.PhotosListFragment"
         android:label=""
-        tools:layout="@layout/photos_list_fragment" />
+        tools:layout="@layout/photos_list_fragment" >
+        <action
+            android:id="@+id/action_photosListFragment_to_photoDetailsFragments"
+            app:destination="@id/photoDetailsFragments" />
+    </fragment>
+    <fragment
+        android:id="@+id/photoDetailsFragments"
+        android:name="com.czech.paybacktask.ui.photoDetails.PhotoDetailsFragments"
+        android:label="photo_details_fragments_fragment"
+        tools:layout="@layout/photo_details_fragments_fragment" >
+        <argument
+            android:name="photo_id"
+            app:argType="integer" />
+    </fragment>
 </navigation>

@@ -1,5 +1,6 @@
 package com.czech.paybacktask.ui.photosList
 
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +14,8 @@ import com.czech.paybacktask.R
 import com.czech.paybacktask.databinding.PhotosListFragmentBinding
 import com.czech.paybacktask.ui.photosList.adapter.PhotoListAdapter
 import com.czech.paybacktask.ui.photosList.adapter.PhotoListDiffCallback
+import com.czech.paybacktask.utils.launchFragment
+import com.czech.paybacktask.utils.showDialog
 import com.czech.paybacktask.utils.states.PhotosListState
 import kotlinx.coroutines.launch
 
@@ -57,6 +60,43 @@ class PhotosListFragment : Fragment() {
         observeViewModel()
     }
 
+    private fun observeViewModel() {
+        lifecycleScope.launch {
+            viewModel.photosListState.collect {
+                when (it) {
+                    is PhotosListState.Loading -> {
+                        binding.apply {
+                            progressBar.visibility = View.VISIBLE
+                            result.visibility = View.GONE
+                        }
+                    }
+                    is PhotosListState.Success -> {
+                        binding.apply {
+                            progressBar.visibility = View.GONE
+                            result.visibility = View.VISIBLE
+
+                            searched.text = query
+                        }
+
+                        if (it.data != null) {
+                            photosListAdapter.submitList(it.data)
+
+                            navigateToDetailsPage()
+                        }
+                    }
+                    is PhotosListState.Error -> {
+                        binding.apply {
+                            progressBar.visibility = View.GONE
+                            result.visibility = View.VISIBLE
+                        }
+                        Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
+                    }
+                    else -> {}
+                }
+            }
+        }
+    }
+
     private fun activateQueryField() {
         binding.apply {
             queryField.setOnFocusChangeListener { _, focused ->
@@ -66,7 +106,10 @@ class PhotosListFragment : Fragment() {
                         searchButton.isEnabled = true
                     }
                     false -> {
-                        queryField.hint = getString(R.string.search_hint)
+
+                        if (queryField.text.isEmpty()) {
+                            queryField.hint = getString(R.string.search_hint)
+                        }
                         searchButton.isEnabled = false
                     }
                 }
@@ -95,38 +138,23 @@ class PhotosListFragment : Fragment() {
         }
     }
 
-    private fun observeViewModel() {
-        lifecycleScope.launch {
-            viewModel.photosListState.collect {
-                when (it) {
-                    is PhotosListState.Loading -> {
-                        binding.apply {
-                            progressBar.visibility = View.VISIBLE
-                            result.visibility = View.GONE
-                        }
-                    }
-                    is PhotosListState.Success -> {
-                        binding.apply {
-                            progressBar.visibility = View.GONE
-                            result.visibility = View.VISIBLE
+    private fun navigateToDetailsPage() {
+        photosListAdapter.onClickItemListener = {
 
-                            searched.text = query
-                        }
+            val message = "Would you like to navigate to the photo detail screen?"
 
-                        if (it.data != null) {
-                            photosListAdapter.submitList(it.data)
-                        }
-                    }
-                    is PhotosListState.Error -> {
-                        binding.apply {
-                            progressBar.visibility = View.GONE
-                            result.visibility = View.VISIBLE
-                        }
-                        Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
-                    }
-                    else -> {}
-                }
+            val positiveButton = DialogInterface.OnClickListener{ _: DialogInterface, _: Int ->
+                launchFragment(
+                    PhotosListFragmentDirections.actionPhotosListFragmentToPhotoDetailsFragments(
+                        it.id!!
+                    )
+                )
             }
+            val negativeButton = DialogInterface.OnClickListener{ dialog: DialogInterface, _: Int ->
+                dialog.cancel()
+            }
+
+            requireContext().showDialog(message, positiveButton, negativeButton)
         }
     }
 }

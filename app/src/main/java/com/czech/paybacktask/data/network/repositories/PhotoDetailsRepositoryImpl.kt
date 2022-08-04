@@ -4,8 +4,10 @@ import com.czech.paybacktask.data.network.model.Result
 import com.czech.paybacktask.data.room.repositories.PhotosDaoRepository
 import com.czech.paybacktask.utils.states.DataState
 import com.czech.paybacktask.utils.toHit
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
 class PhotoDetailsRepositoryImpl @Inject constructor(
@@ -33,6 +35,6 @@ class PhotoDetailsRepositoryImpl @Inject constructor(
                     )
                 )
             }
-        }
+        }.flowOn(Dispatchers.IO)
     }
 }
