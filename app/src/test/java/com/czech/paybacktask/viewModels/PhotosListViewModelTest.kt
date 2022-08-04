@@ -1,6 +1,5 @@
 package com.czech.paybacktask.viewModels
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.czech.paybacktask.data.network.model.Result
 import com.czech.paybacktask.data.network.repositories.PhotoRepository
 import com.czech.paybacktask.ui.photosList.PhotosListViewModel
@@ -38,14 +37,27 @@ class PhotosListViewModelTest {
     private val testCoroutineDispatcher = TestCoroutineDispatcher()
 
     @Before
-    fun initMocks(){
+    fun initMocks() {
         MockitoAnnotations.initMocks(this)
     }
 
     @Test
     fun testPhotosListViewModel() = testCoroutineDispatcher.runBlockingTest {
 
-        val response = Result.Hit(id = 0, comments = 0, downloads = 0, largeImageURL = "", likes = 0, previewURL = "", tags = "", type = "", user = "", userId = 0, userImageURL = "", views = 0)
+        val response = Result.Hit(
+            id = 0,
+            comments = 0,
+            downloads = 0,
+            largeImageURL = "",
+            likes = 0,
+            previewURL = "",
+            tags = "",
+            type = "",
+            user = "",
+            userId = 0,
+            userImageURL = "",
+            views = 0
+        )
 
         val query = ""
 
@@ -65,8 +77,14 @@ class PhotosListViewModelTest {
 
         photosListViewModel.getPhotos(query)
 
-        Assert.assertEquals(true, photosListViewModel.photosListState.value == PhotosListState.Success(listOf(response)))
-        Assert.assertEquals(false, photosListViewModel.photosListState.value == PhotosListState.Error(""))
+        Assert.assertEquals(
+            true,
+            photosListViewModel.photosListState.value == PhotosListState.Success(listOf(response))
+        )
+        Assert.assertEquals(
+            false,
+            photosListViewModel.photosListState.value == PhotosListState.Error("")
+        )
         job.cancel()
     }
 }

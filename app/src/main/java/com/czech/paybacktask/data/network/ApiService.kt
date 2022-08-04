@@ -10,6 +10,6 @@ interface ApiService {
     @GET("api")
     suspend fun search(
         @Query("q") q: String,
-        @Query("KEY") key: String
+        @Query("key") key: String
     ): Response<Result>
 }

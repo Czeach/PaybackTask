@@ -32,6 +32,8 @@ class PhotoRepositoryImpl @Inject constructor(
                         if (hits.isNullOrEmpty()) {
                             emit(DataState.data(message = "No result for $query"))
                         } else {
+                            photosDaoRepository.deleteAll()
+
                             photosDaoRepository.insertPhotos(hits.toEntityList())
 
                             emit(DataState.data(data = photosDaoRepository.getPhotos().toHitList()))

@@ -24,7 +24,8 @@ class PhotosListViewModel @Inject constructor(
                         photosListState.value = PhotosListState.Loading
                     }
                     it.data == null -> {
-                        photosListState.value = PhotosListState.Error(message = it.message.toString())
+                        photosListState.value =
+                            PhotosListState.Error(message = it.message.toString())
                     }
                     else -> {
                         it.data.let { photos ->
