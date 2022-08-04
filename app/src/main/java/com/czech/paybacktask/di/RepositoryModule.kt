@@ -1,6 +1,8 @@
 package com.czech.paybacktask.di
 
 import com.czech.paybacktask.data.network.ApiService
+import com.czech.paybacktask.data.network.repositories.PhotoDetailsRepository
+import com.czech.paybacktask.data.network.repositories.PhotoDetailsRepositoryImpl
 import com.czech.paybacktask.data.network.repositories.PhotoRepository
 import com.czech.paybacktask.data.network.repositories.PhotoRepositoryImpl
 import com.czech.paybacktask.data.room.PhotosDao
@@ -33,6 +35,15 @@ class RepositoryModule {
     ): PhotosDaoRepository {
         return PhotosDaoRepositoryImpl(
             photosDao = photosDao
+        )
+    }
+
+    @[Provides Singleton]
+    fun providePhotoDetailsRepository(
+        photosDaoRepository: PhotosDaoRepository
+    ): PhotoDetailsRepository {
+        return PhotoDetailsRepositoryImpl(
+            photosDaoRepository = photosDaoRepository
         )
     }
 

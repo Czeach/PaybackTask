@@ -8,7 +8,7 @@ interface PhotosDaoRepository {
 
     suspend fun getPhotos(): List<PhotoEntity>
 
-    suspend fun getPhotoById(id: Int): PhotoEntity
+    suspend fun getPhotoById(id: Int): PhotoEntity?
 
     suspend fun deleteAll()
 }
