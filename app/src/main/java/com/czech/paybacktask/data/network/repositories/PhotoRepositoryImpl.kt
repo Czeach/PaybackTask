@@ -52,4 +52,26 @@ class PhotoRepositoryImpl @Inject constructor(
             }
         }.flowOn(Dispatchers.IO)
     }
+
+    override suspend fun getCachedResult(): Flow<DataState<List<Result.Hit>>> {
+        return flow {
+            emit(DataState.loading())
+
+            val result = photosDaoRepository.getPhotos().toHitList()
+
+            try {
+                if (result.isNullOrEmpty()) {
+                    emit(DataState.error(message = "You don't have any saved searches. Connect to the internet to get new results"))
+                } else {
+                    emit(DataState.data(data = photosDaoRepository.getPhotos().toHitList()))
+                }
+            } catch (e: Exception) {
+                emit(
+                    DataState.error(
+                        message = e.message ?: "An error occurred"
+                    )
+                )
+            }
+        }.flowOn(Dispatchers.IO)
+    }
 }

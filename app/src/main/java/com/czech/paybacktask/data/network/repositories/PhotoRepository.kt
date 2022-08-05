@@ -7,4 +7,6 @@ import kotlinx.coroutines.flow.Flow
 interface PhotoRepository {
 
     suspend fun getSearchResult(query: String): Flow<DataState<List<Result.Hit>>>
+
+    suspend fun getCachedResult(): Flow<DataState<List<Result.Hit>>>
 }

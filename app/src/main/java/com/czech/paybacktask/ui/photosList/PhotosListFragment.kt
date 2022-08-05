@@ -49,15 +49,29 @@ class PhotosListFragment : Fragment() {
             adapter = photosListAdapter
         }
 
-        query = "fruits"
-
-        viewModel.getPhotos(query)
+        checkNetworkConnectivity()
 
         enterQuery()
 
         observeViewModel()
 
         navigateToDetailsPage()
+    }
+
+    private fun checkNetworkConnectivity() {
+        viewModel.isNetworkConnected.observe(viewLifecycleOwner) { isConnected ->
+            when (isConnected) {
+                false -> {
+                    requireContext().showDialog(getString(R.string.displayFromDB), null)
+                    viewModel.getFromDB()
+                }
+                true -> {
+                    query = getString(R.string.defaultSearch)
+
+                    viewModel.getPhotos(query)
+                }
+            }
+        }
     }
 
     private fun observeViewModel() {
@@ -87,7 +101,7 @@ class PhotosListFragment : Fragment() {
                             progressBar.hide()
                             result.show()
                         }
-                        requireContext().showToast(it.message)
+                        requireContext().showDialog(it.message, null)
                     }
                     else -> {}
                 }
@@ -117,15 +131,25 @@ class PhotosListFragment : Fragment() {
         binding.apply {
             searchButton.setOnClickListener {
 
-                query = queryField.text.toString()
+                viewModel.isNetworkConnected.observe(viewLifecycleOwner) { isConnected ->
+                    when (isConnected) {
+                        true -> {
+                            query = queryField.text.toString()
 
-                if (query.isNotEmpty()) {
-                    queryField.text.clear()
-                    queryField.hint = getString(R.string.search_hint)
+                            if (query.isNotEmpty()) {
+                                queryField.text.clear()
+                                queryField.hint = getString(R.string.search_hint)
 
-                    viewModel.getPhotos(query)
-                } else {
-                    requireContext().showToast("Please enter a valid search input")
+                                viewModel.getPhotos(query)
+                            } else {
+                                requireContext().showToast(getString(R.string.enterValidSearch))
+                            }
+                        }
+                        false -> {
+                            requireContext().showDialog(getString(R.string.displayFromDB), null)
+                            viewModel.getFromDB()
+                        }
+                    }
                 }
             }
         }
@@ -134,7 +158,7 @@ class PhotosListFragment : Fragment() {
     private fun navigateToDetailsPage() {
         photosListAdapter.onClickItemListener = {
 
-            val message = "Would you like to navigate to the photo detail screen?"
+            val message = getString(R.string.navigateToDetailScreen)
 
             val positiveButton = DialogInterface.OnClickListener{ _: DialogInterface, _: Int ->
                 launchFragment(
@@ -143,11 +167,7 @@ class PhotosListFragment : Fragment() {
                     )
                 )
             }
-            val negativeButton = DialogInterface.OnClickListener{ dialog: DialogInterface, _: Int ->
-                dialog.cancel()
-            }
-
-            requireContext().showDialog(message, positiveButton, negativeButton)
+            requireContext().showDialog(message, positiveButton)
         }
     }
 }

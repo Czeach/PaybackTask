@@ -1,17 +1,14 @@
 package com.czech.paybacktask.ui.photoDetails
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import com.czech.paybacktask.data.network.model.Result
 import com.czech.paybacktask.databinding.PhotoDetailsFragmentsFragmentBinding
-import com.czech.paybacktask.ui.photosList.PhotosListViewModel
 import com.czech.paybacktask.utils.hide
 import com.czech.paybacktask.utils.loadImage
 import com.czech.paybacktask.utils.show
@@ -19,12 +16,12 @@ import com.czech.paybacktask.utils.showToast
 import com.czech.paybacktask.utils.states.PhotosDetailState
 import kotlinx.coroutines.launch
 
-class PhotoDetailsFragments : Fragment() {
+class PhotoDetailsFragment : Fragment() {
 
     private var _binding: PhotoDetailsFragmentsFragmentBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel by activityViewModels<PhotoDetailsFragmentsViewModel>()
+    private val viewModel by activityViewModels<PhotoDetailsViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,7 +35,7 @@ class PhotoDetailsFragments : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val photoId = PhotoDetailsFragmentsArgs.fromBundle(requireArguments()).photoId
+        val photoId = PhotoDetailsFragmentArgs.fromBundle(requireArguments()).photoId
 
         viewModel.getPhotoById(photoId)
 

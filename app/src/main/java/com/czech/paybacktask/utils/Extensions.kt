@@ -18,11 +18,10 @@ fun Fragment.launchFragment(direction: NavDirections) = try {
     Log.e("NAVIGATION ERROR", e.message.toString())
 }
 
-fun Context.showDialog(message: String, positive: DialogInterface.OnClickListener?, negative: DialogInterface.OnClickListener?) {
+fun Context.showDialog(message: String, positive: DialogInterface.OnClickListener?) {
     MaterialAlertDialogBuilder(this)
         .setMessage(message)
-        .setPositiveButton("YES", positive)
-        .setNegativeButton("CANCEL", negative)
+        .setPositiveButton("OK", positive)
         .show()
 }
 

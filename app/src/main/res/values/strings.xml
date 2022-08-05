@@ -6,4 +6,8 @@
     <string name="comments">Comments:</string>
     <string name="downloads">Downloads:</string>
     <string name="tags">Tags:</string>
+    <string name="displayFromDB">You do not have an active Internet connection. We will display your saved data, connect to the internet to make a new search.</string>
+    <string name="enterValidSearch">Please enter a valid search input</string>
+    <string name="navigateToDetailScreen">Would you like to navigate to the photo detail screen?</string>
+    <string name="defaultSearch">fruits</string>
 </resources>

@@ -1,10 +1,14 @@
 package com.czech.paybacktask.di
 
+import android.content.Context
+import com.czech.paybacktask.BaseApplication
 import com.czech.paybacktask.data.network.ApiService
+import com.czech.paybacktask.data.network.connectivity.NetworkConnection
 import com.czech.paybacktask.utils.Constants
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -51,6 +55,13 @@ object NetworkModule {
         retrofit: Retrofit
     ): ApiService {
         return retrofit.create(ApiService::class.java)
+    }
+
+    @[Provides Singleton]
+    fun provideNetworkConnection(
+        @ApplicationContext context: Context
+    ): NetworkConnection {
+        return NetworkConnection(context)
     }
 
 }
