@@ -34,6 +34,7 @@ class PhotosListViewModelTest {
 
     @Mock
     private lateinit var networkConnection: NetworkConnection
+
     @Mock
     private lateinit var photosListViewModel: PhotosListViewModel
 
