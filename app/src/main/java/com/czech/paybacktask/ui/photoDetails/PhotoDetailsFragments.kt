@@ -5,11 +5,17 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
+import com.czech.paybacktask.data.network.model.Result
 import com.czech.paybacktask.databinding.PhotoDetailsFragmentsFragmentBinding
 import com.czech.paybacktask.ui.photosList.PhotosListViewModel
+import com.czech.paybacktask.utils.hide
+import com.czech.paybacktask.utils.loadImage
+import com.czech.paybacktask.utils.show
+import com.czech.paybacktask.utils.showToast
 import com.czech.paybacktask.utils.states.PhotosDetailState
 import kotlinx.coroutines.launch
 
@@ -39,22 +45,47 @@ class PhotoDetailsFragments : Fragment() {
         observeViewModel()
     }
 
-    fun observeViewModel() {
+    private fun observeViewModel() {
         lifecycleScope.launch {
             viewModel.photosDetailState.collect {
                 when (it) {
                     is PhotosDetailState.Loading -> {
-                        Log.d("Loading", "Loading")
+                        binding.apply {
+                            progressBar.show()
+                            result.hide()
+                        }
                     }
                     is PhotosDetailState.Success -> {
-                        Log.d("Success", it.data.toString())
+                        binding.apply {
+                            progressBar.hide()
+                            result.show()
+                        }
+
+                        if (it.data != null) {
+                            bindData(it.data)
+                        }
                     }
                     is PhotosDetailState.Error -> {
-                        Log.d("Error", "Error")
+                        binding.apply {
+                            progressBar.hide()
+                            result.show()
+                        }
+                        requireContext().showToast(it.message)
                     }
                     else -> {}
                 }
             }
+        }
+    }
+
+    private fun bindData(data: Result.Hit) {
+        binding.apply {
+            view?.loadImage(data.largeImageURL.toString(), photo)
+            tags.text = data.tags
+            user.text = data.user
+            comments.text = data.comments.toString()
+            likes.text = data.likes.toString()
+            downloads.text = data.downloads.toString()
         }
     }
 

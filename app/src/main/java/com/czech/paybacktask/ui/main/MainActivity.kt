@@ -15,6 +15,8 @@ import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.czech.paybacktask.R
 import com.czech.paybacktask.databinding.ActivityMainBinding
+import com.czech.paybacktask.utils.hide
+import com.czech.paybacktask.utils.show
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -38,6 +40,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setUpNavigation() {
+        setSupportActionBar(binding.toolbar)
+
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.fragment_container) as NavHostFragment
 
@@ -54,7 +58,10 @@ class MainActivity : AppCompatActivity() {
         navController.addOnDestinationChangedListener{_, destination, _ ->
             when (destination.id) {
                 R.id.photosListFragment -> {
-//                    supportActionBar?.hide()
+                    binding.toolbar.hide()
+                }
+                else -> {
+                    binding.toolbar.show()
                 }
             }
         }

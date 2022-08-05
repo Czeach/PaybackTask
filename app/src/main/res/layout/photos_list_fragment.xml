@@ -44,7 +44,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_marginEnd="6dp"
-                android:enabled="false"
                 android:padding="8dp"
                 app:backgroundTint="@color/search_button_state"
                 app:icon="@drawable/search_icon"

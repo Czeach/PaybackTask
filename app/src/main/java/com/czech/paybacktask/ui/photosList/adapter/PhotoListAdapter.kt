@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.czech.paybacktask.R
 import com.czech.paybacktask.data.network.model.Result
+import com.czech.paybacktask.utils.loadImage
 
 class PhotoListAdapter(diffCallback: PhotoListDiffCallback) :
     ListAdapter<Result.Hit, PhotoListAdapter.PhotoListViewHolder>(diffCallback) {
@@ -28,9 +29,7 @@ class PhotoListAdapter(diffCallback: PhotoListDiffCallback) :
             userName.text = data.user
             tags.text = data.tags
 
-            Glide.with(itemView)
-                .load(data.previewURL)
-                .into(photo)
+            itemView.loadImage(data.previewURL.toString(), photo)
         }
     }
 

@@ -7,3 +7,8 @@ sealed class PhotosListState {
     data class Error(val message: String): PhotosListState()
     object Loading: PhotosListState()
 }
+
+sealed class DatabaseState {
+    data class IsNotEmpty(val data: List<Result.Hit>?): DatabaseState()
+    data class IsEmpty(val message: String): DatabaseState()
+}

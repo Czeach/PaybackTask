@@ -14,15 +14,13 @@ import com.czech.paybacktask.R
 import com.czech.paybacktask.databinding.PhotosListFragmentBinding
 import com.czech.paybacktask.ui.photosList.adapter.PhotoListAdapter
 import com.czech.paybacktask.ui.photosList.adapter.PhotoListDiffCallback
-import com.czech.paybacktask.utils.launchFragment
-import com.czech.paybacktask.utils.showDialog
+import com.czech.paybacktask.utils.*
 import com.czech.paybacktask.utils.states.PhotosListState
 import kotlinx.coroutines.launch
 
 class PhotosListFragment : Fragment() {
 
-    private var _binding: PhotosListFragmentBinding? = null
-    private val binding get() = _binding!!
+    private lateinit var binding: PhotosListFragmentBinding
 
     private val viewModel by activityViewModels<PhotosListViewModel>()
 
@@ -35,7 +33,7 @@ class PhotosListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        _binding = PhotosListFragmentBinding.inflate(inflater, container, false)
+        binding = PhotosListFragmentBinding.inflate(inflater, container, false)
 
         return binding.root
     }
@@ -58,6 +56,8 @@ class PhotosListFragment : Fragment() {
         enterQuery()
 
         observeViewModel()
+
+        navigateToDetailsPage()
     }
 
     private fun observeViewModel() {
@@ -66,30 +66,28 @@ class PhotosListFragment : Fragment() {
                 when (it) {
                     is PhotosListState.Loading -> {
                         binding.apply {
-                            progressBar.visibility = View.VISIBLE
-                            result.visibility = View.GONE
+                            progressBar.show()
+                            result.hide()
                         }
                     }
                     is PhotosListState.Success -> {
                         binding.apply {
-                            progressBar.visibility = View.GONE
-                            result.visibility = View.VISIBLE
+                            progressBar.hide()
+                            result.show()
 
                             searched.text = query
                         }
 
                         if (it.data != null) {
                             photosListAdapter.submitList(it.data)
-
-                            navigateToDetailsPage()
                         }
                     }
                     is PhotosListState.Error -> {
                         binding.apply {
-                            progressBar.visibility = View.GONE
-                            result.visibility = View.VISIBLE
+                            progressBar.hide()
+                            result.show()
                         }
-                        Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
+                        requireContext().showToast(it.message)
                     }
                     else -> {}
                 }
@@ -103,14 +101,12 @@ class PhotosListFragment : Fragment() {
                 when (focused) {
                     true -> {
                         queryField.hint = ""
-                        searchButton.isEnabled = true
                     }
                     false -> {
 
                         if (queryField.text.isEmpty()) {
                             queryField.hint = getString(R.string.search_hint)
                         }
-                        searchButton.isEnabled = false
                     }
                 }
             }
@@ -123,17 +119,14 @@ class PhotosListFragment : Fragment() {
 
                 query = queryField.text.toString()
 
-                if (query.isEmpty()) {
-                    Toast.makeText(
-                        requireContext(),
-                        "Please enter a valid search field",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                if (query.isNotEmpty()) {
+                    queryField.text.clear()
+                    queryField.hint = getString(R.string.search_hint)
+
+                    viewModel.getPhotos(query)
+                } else {
+                    requireContext().showToast("Please enter a valid search input")
                 }
-
-                queryField.text.clear()
-
-                viewModel.getPhotos(query)
             }
         }
     }

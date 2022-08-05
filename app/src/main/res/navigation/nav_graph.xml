@@ -17,7 +17,7 @@
     <fragment
         android:id="@+id/photoDetailsFragments"
         android:name="com.czech.paybacktask.ui.photoDetails.PhotoDetailsFragments"
-        android:label="photo_details_fragments_fragment"
+        android:label=""
         tools:layout="@layout/photo_details_fragments_fragment" >
         <argument
             android:name="photo_id"
