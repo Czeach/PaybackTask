@@ -1,6 +1,5 @@
 package com.czech.paybacktask.ui.photosList
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.czech.paybacktask.data.network.connectivity.NetworkConnection
@@ -8,7 +7,6 @@ import com.czech.paybacktask.data.network.repositories.PhotoRepository
 import com.czech.paybacktask.utils.states.PhotosListState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 

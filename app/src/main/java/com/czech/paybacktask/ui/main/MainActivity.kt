@@ -55,7 +55,7 @@ class MainActivity : AppCompatActivity() {
 
         setupActionBarWithNavController(navController, appBarConfig)
 
-        navController.addOnDestinationChangedListener{_, destination, _ ->
+        navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
                 R.id.photosListFragment -> {
                     binding.toolbar.hide()

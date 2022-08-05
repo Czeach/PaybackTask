@@ -1,10 +1,7 @@
 package com.czech.paybacktask.data.network.connectivity
 
 import android.annotation.TargetApi
-import android.content.BroadcastReceiver
 import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
 import android.net.*
 import android.os.Build
 import androidx.lifecycle.LiveData
@@ -38,14 +35,8 @@ class NetworkConnection(val context: Context) : LiveData<Boolean>() {
             Build.VERSION.SDK_INT >= Build.VERSION_CODES.N -> {
                 connectionManger.registerDefaultNetworkCallback(networkConnectionCallback())
             }
-            true -> {
-                lollipopNetworkRequest()
-            }
             else -> {
-                context.registerReceiver(
-                    networkReceiver(),
-                    IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
-                )
+                lollipopNetworkRequest()
             }
         }
     }
@@ -62,14 +53,7 @@ class NetworkConnection(val context: Context) : LiveData<Boolean>() {
         )
     }
 
-    private fun networkReceiver() = object : BroadcastReceiver() {
-        override fun onReceive(context: Context?, intent: Intent?) {
-            updateConnection()
-        }
-
-    }
-
-    fun updateConnection() {
+    private fun updateConnection() {
         val activeNetwork: NetworkInfo? = connectionManger.activeNetworkInfo
         postValue((activeNetwork?.isConnected == true))
     }

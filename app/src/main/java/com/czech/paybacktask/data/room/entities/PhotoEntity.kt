@@ -2,7 +2,6 @@ package com.czech.paybacktask.data.room.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.czech.paybacktask.data.network.model.Result
 
 @Entity(tableName = "photos")
 data class PhotoEntity(

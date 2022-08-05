@@ -12,7 +12,7 @@ import javax.inject.Inject
 
 class PhotoDetailsRepositoryImpl @Inject constructor(
     private val photosDaoRepository: PhotosDaoRepository
-): PhotoDetailsRepository {
+) : PhotoDetailsRepository {
     override suspend fun getPhotoById(id: Int): Flow<DataState<Result.Hit>> {
         return flow {
             emit(DataState.loading())
@@ -28,7 +28,7 @@ class PhotoDetailsRepositoryImpl @Inject constructor(
                         emit(DataState.error(message = "Photo not found"))
                     }
                 }
-            }catch (e: Exception) {
+            } catch (e: Exception) {
                 emit(
                     DataState.error(
                         message = e.message ?: "An error occurred"

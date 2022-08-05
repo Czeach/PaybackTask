@@ -1,7 +1,6 @@
 package com.czech.paybacktask.di
 
 import android.content.Context
-import com.czech.paybacktask.BaseApplication
 import com.czech.paybacktask.data.network.ApiService
 import com.czech.paybacktask.data.network.connectivity.NetworkConnection
 import com.czech.paybacktask.utils.Constants

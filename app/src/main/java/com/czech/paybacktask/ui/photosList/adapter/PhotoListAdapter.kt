@@ -9,7 +9,6 @@ import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.czech.paybacktask.R
 import com.czech.paybacktask.data.network.model.Result
 import com.czech.paybacktask.utils.loadImage
