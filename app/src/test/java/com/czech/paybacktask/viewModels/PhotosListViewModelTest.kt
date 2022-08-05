@@ -1,5 +1,6 @@
 package com.czech.paybacktask.viewModels
 
+import com.czech.paybacktask.data.network.connectivity.NetworkConnection
 import com.czech.paybacktask.data.network.model.Result
 import com.czech.paybacktask.data.network.repositories.PhotoRepository
 import com.czech.paybacktask.ui.photosList.PhotosListViewModel
@@ -32,6 +33,8 @@ class PhotosListViewModelTest {
     private lateinit var photosListRepository: PhotoRepository
 
     @Mock
+    private lateinit var networkConnection: NetworkConnection
+    @Mock
     private lateinit var photosListViewModel: PhotosListViewModel
 
     private val testCoroutineDispatcher = TestCoroutineDispatcher()
@@ -61,7 +64,7 @@ class PhotosListViewModelTest {
 
         val query = ""
 
-        photosListViewModel = PhotosListViewModel(photosListRepository)
+        photosListViewModel = PhotosListViewModel(photosListRepository, networkConnection)
 
         val responseToData = DataState.data(data = listOf(response))
 
